@@ -2,6 +2,8 @@ plugins {
     application
     kotlin("jvm") version "1.3.71"
     id("com.justai.jaicf.jaicp-build-plugin") version "0.1.1"
+//    kotlin("jvm") version "1.4.10" // or kotlin("multiplatform") or any other kotlin plugin
+//    kotlin("plugin.serialization") version "1.3.71"
 }
 
 group = "com.justai.jaicf"
@@ -30,7 +32,11 @@ dependencies {
     implementation("com.justai.jaicf:core:$jaicf")
     implementation("com.justai.jaicf:jaicp:$jaicf")
     implementation("com.justai.jaicf:caila:$jaicf")
+
+//    implementation("com.beust:klaxon:5.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 }
+
 
 tasks {
     compileKotlin {

@@ -3,15 +3,35 @@ package com.justai.jaicf.template.scenario
 import com.justai.jaicf.activator.caila.CailaIntentActivator
 import com.justai.jaicf.activator.caila.caila
 import com.justai.jaicf.model.scenario.Scenario
-
+import kotlinx.serialization.json.JsonObject
 import java.net.URL
+import java.nio.file.PathMatcher
+import java.util.regex.Pattern
+
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+
+//@Serializable
+//data class Project(val name: String, val language: String)
+//
+//fun main() {
+//    // Serializing objects
+////    val data = Project("kotlinx.serialization", "Kotlin")
+////    val string = Json.encodeToString(data)
+////    println(string) // {"name":"kotlinx.serialization","language":"Kotlin"}
+//    // Deserializing back into objects
+//    val obj = Json.decodeFromString<Project>(string)
+//    println(obj) // Project(name=kotlinx.serialization, language=Kotlin)
+//    Json.string
+//}
 
 object MainScenario : Scenario() {
 
     init {
         state("start") {
             activators {
-                catchAll()
+//                catchAll()
 //                event()
                 regex("/start")
                 intent("Hello")
@@ -75,7 +95,7 @@ object MainScenario : Scenario() {
             }
 
             action {
-                var response = URL("https://www.google.com/search?sxsrf=ALeKk00QDWc6WCDnOrhh_mz12cH3cwR0zg%3A1604751362992&source=hp&ei=ApCmX9q1OdLisAfqyJOIAg&q=fat&oq=fat&gs_lcp=CgZwc3ktYWIQAzIICC4QsQMQkwIyBQgAELEDMgIIADIICAAQsQMQgwEyAggAMgUIABCxAzIFCC4QsQMyBQguELEDMgIIADIFCAAQsQM6BAgjECc6CggAELEDEIMBEEM6BwgAELEDEEM6AgguUMkDWMYGYMIHaABwAHgAgAFhiAGZApIBATOYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwjavsPXtPDsAhVSMewKHWrkBCEQ4dUDCAc&uact=5").readText()
+                var response = URL("https://www.google.com").readText()
                 reactions.run {
                     say("Looking up how much fats there are!")
                     say(response)
@@ -98,7 +118,18 @@ object MainScenario : Scenario() {
             }
 
             action {
-                var response = URL("https://www.google.com").readText()
+                var barcode = "737628064502"
+                var response = URL("https://world.openfoodfacts.org/api/v0/product/$barcode.json").readText()
+
+
+//                val parser: Parser = Parser.default()()
+//                val json: JsonObject = parser.parse(response) as JsonObject
+//                println("Name : ${json.string("name")}, Age : ${json.int("age")}")
+
+                print(response)
+
+
+
                 reactions.run {
                     say("Looking up how much calories there are!")
                     say(response)
@@ -112,6 +143,36 @@ object MainScenario : Scenario() {
                 }
             }
         }
+
+        // https://edcd8d22065c.ngrok.io/api/products/<bar_code> --> Miel endpoint
+
+        // countries : list of countries where the product is sold
+
+
+        // generic_name_en e.g. rice noodles --> "these rice noodles contain...'
+
+//       ingredients_text_with_allergens (ingredients_ids_debug --> each separate in list)
+
+       //allergens
+
+        //  "additives_original_tags": [
+        //      "en:e330"
+        //    ],
+
+        // labels = gluten free
+
+
+
+        // serving size (serving_size_imported)
+
+        // nutrient levels --> SUmmary
+//        "nutrient_levels": {
+//            "fat": "moderate",
+//            "salt": "moderate",
+//            "sugars": "high",
+//            "saturated-fat": "moderate"
+//        },
+
 
 //        state("search", noContext = true) {
 //            activators {
