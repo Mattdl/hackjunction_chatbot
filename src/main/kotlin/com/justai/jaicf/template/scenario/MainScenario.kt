@@ -1,34 +1,28 @@
 package com.justai.jaicf.template.scenario
 
-import com.justai.jaicf.activator.caila.CailaIntentActivator
 import com.justai.jaicf.activator.caila.caila
 import com.justai.jaicf.model.scenario.Scenario
-import kotlinx.serialization.json.JsonObject
+
 import java.net.URL
-import java.nio.file.PathMatcher
-import java.util.regex.Pattern
 
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
-
-
-//@Serializable
-//data class Project(val name: String, val language: String)
-//
-//fun main() {
-//    // Serializing objects
-////    val data = Project("kotlinx.serialization", "Kotlin")
-////    val string = Json.encodeToString(data)
-////    println(string) // {"name":"kotlinx.serialization","language":"Kotlin"}
-//    // Deserializing back into objects
-//    val obj = Json.decodeFromString<Project>(string)
-//    println(obj) // Project(name=kotlinx.serialization, language=Kotlin)
-//    Json.string
-//}
-
+//https://github.com/just-ai/jaicf-kotlin/wiki/context
 object MainScenario : Scenario() {
 
     init {
+
+//        bind("preProcess", function(ctx){
+//            var $session = ctx.session;
+//            var $parseTree = ctx.parseTree;
+//            $session.start = $parseTree.text.substring($parseTree.text.lastIndexOf("start") + "start ".length);
+//            if($session.start) {
+//            try {
+//                $session.start = JSON.parse($session.start);
+//            }  catch(e) {
+//                log("start data non JSON object");
+//            }
+//        }
+//        });
+
         state("start") {
             activators {
 //                catchAll()
@@ -44,10 +38,12 @@ object MainScenario : Scenario() {
                         "Foody Finn reporting for duty! Questions about this product?"
                     )
                     buttons(
-                        "How much cals are there?",
-                        "How much fat?",
-                        "What is your name again?"
+                        "How much cals are in there?",
+                        "Produced where?",
+                        "Alternative products?"
                     )
+                    context.client["barcode"] = context.result
+                    reactions.say("Your barcode is ${context.result}")
                 }
             }
         }
@@ -104,7 +100,8 @@ object MainScenario : Scenario() {
                         "Did this answer your question?"
                     )
                     buttons(
-                        "What are the calories?"
+                        "What are the calories?",
+                        "Where does my food come frome?"
                     )
                 }
             }
@@ -119,6 +116,7 @@ object MainScenario : Scenario() {
 
             action {
                 var barcode = "737628064502"
+//                var barcode = context.client["barcode"]
                 var response = URL("https://world.openfoodfacts.org/api/v0/product/$barcode.json").readText()
 
 
@@ -138,7 +136,8 @@ object MainScenario : Scenario() {
                         "Did this answer your question?"
                     )
                     buttons(
-                        "What are the fat values?"
+                        "What are the fat values?",
+                        "Where does my food come frome?"
                     )
                 }
             }
