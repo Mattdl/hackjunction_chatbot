@@ -62,10 +62,14 @@ object MainScenario : Scenario() {
                         "Alternative products?"
                     )
 
-                    var barcode = request.chatwidget?.jaicp?.data
+                    var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]
+//                    var barcode = script_context?.JustWidgetRawParams
+//                    ["JustWidgetRawParams"]
 
                     context.client["barcode"] = barcode
                     reactions.say("Your barcode is ${barcode}")
+                    reactions.say("Your barcode raw is ${barcode!!.jsonObject["barcode"]}")
+//                    Your barcode is {"livechatStatus":{"enabled":false},"JustWidgetRawParams":{"barcode":"4001724004073"},"isTestChannel":false}
 
 //                    var barcode = "737628064502"
 //                var barcode = context.client["barcode"]
