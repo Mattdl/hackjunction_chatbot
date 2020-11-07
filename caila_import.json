@@ -1,127 +1,236 @@
-{
-  "project": {
-    "id": "jaicf-jaicp-caila-template",
-    "name": "jaicf-jaicp-caila-template",
-    "folder": "/"
+[
+  {
+    "id": 9277,
+    "path": "/Bye",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "goodbye"
+      },
+      {
+        "text": "bye"
+      },
+      {
+        "text": "see you"
+      }
+    ],
+    "patterns": []
   },
-  "settings": {
-    "language": "en",
-    "spellingCorrection": false,
-    "classificationAlgorithm": "sts",
-    "timezone": "UTC",
-    "shared": false
+  {
+    "id": 9278,
+    "path": "/Hello",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "hi"
+      },
+      {
+        "text": "hello"
+      },
+      {
+        "text": "welcome"
+      },
+      {
+        "text": "hallo"
+      },
+      {
+        "text": "bonjours"
+      }
+    ],
+    "patterns": []
   },
-  "intents": [
-    {
-      "id": 6760,
-      "path": "/Bye",
-      "enabled": true,
-      "shared": false,
-      "phrases": [
-        {
-          "text": "goodbye"
-        },
-        {
-          "text": "bye"
-        },
-        {
-          "text": "see you"
-        }
-      ],
-      "patterns": []
-    },
-    {
-      "id": 6761,
-      "path": "/Hello",
-      "enabled": true,
-      "shared": false,
-      "phrases": [
-        {
-          "text": "hi"
-        },
-        {
-          "text": "hello"
-        },
-        {
-          "text": "welcome"
-        }
-      ],
-      "patterns": []
-    },
-    {
-      "id": 6762,
-      "path": "/Smalltalk",
-      "enabled": true,
-      "shared": false,
-      "phrases": [],
-      "patterns": []
-    },
-    {
-      "id": 6763,
-      "path": "/Smalltalk/Help",
-      "description": "",
-      "answer": "I'm a templated bot and can't do useful things yet...",
-      "enabled": true,
-      "shared": false,
-      "phrases": [
-        {
-          "text": "help"
-        },
-        {
-          "text": "what can you do"
-        },
-        {
-          "text": "your functions"
-        },
-        {
-          "text": "your possibilities"
-        },
-        {
-          "text": "tell me about you"
-        }
-      ],
-      "patterns": []
-    },
-    {
-      "id": 6764,
-      "path": "/Smalltalk/HowAreYou",
-      "answer": "I'm fine! Thank you!",
-      "enabled": true,
-      "shared": false,
-      "phrases": [
-        {
-          "text": "how are you"
-        }
-      ],
-      "patterns": []
-    },
-    {
-      "id": 6765,
-      "path": "/Smalltalk/WhatIsYourName",
-      "answer": "I don't have a name yet, I'm just a bot",
-      "enabled": true,
-      "shared": false,
-      "phrases": [
-        {
-          "text": "what is your name"
-        },
-        {
-          "text": "how to name you"
-        },
-        {
-          "text": "say me your name"
-        }
-      ],
-      "patterns": []
-    }
-  ],
-  "entities": [],
-  "enabledSystemEntities": [
-    "duckling.number",
-    "duckling.time",
-    "duckling.duration",
-    "duckling.phone-number",
-    "duckling.email",
-    "duckling.url"
-  ]
-}
+  {
+    "id": 9298,
+    "path": "/love",
+    "answer": "I'm sorry dear, my heart belongs to Hack Junction <3",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "love"
+      },
+      {
+        "text": "like"
+      },
+      {
+        "text": "i like you"
+      },
+      {
+        "text": "i love you"
+      }
+    ],
+    "patterns": []
+  },
+  {
+    "id": 9325,
+    "path": "/search",
+    "description": "Look up fat/proteins/whatever info user wants to know about food product!",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "look for"
+      },
+      {
+        "text": "how much"
+      },
+      {
+        "text": "how many"
+      },
+      {
+        "text": "how"
+      },
+      {
+        "text": "fat"
+      },
+      {
+        "text": "protein"
+      },
+      {
+        "text": "search"
+      },
+      {
+        "text": "what is"
+      }
+    ],
+    "patterns": [],
+    "slots": []
+  },
+  {
+    "id": 9352,
+    "path": "/search/calories",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "cals"
+      },
+      {
+        "text": "kilocalories"
+      },
+      {
+        "text": "kcal"
+      },
+      {
+        "text": "energy"
+      },
+      {
+        "text": "calories"
+      }
+    ],
+    "patterns": []
+  },
+  {
+    "id": 9351,
+    "path": "/search/fat",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "fat"
+      },
+      {
+        "text": "how much fat"
+      },
+      {
+        "text": "fat per 100g"
+      },
+      {
+        "text": "fat per g"
+      },
+      {
+        "text": "fat percentage"
+      }
+    ],
+    "patterns": []
+  },
+  {
+    "id": 9279,
+    "path": "/Smalltalk",
+    "enabled": true,
+    "shared": false,
+    "phrases": [],
+    "patterns": [],
+    "slots": []
+  },
+  {
+    "id": 9280,
+    "path": "/Smalltalk/Help",
+    "description": "",
+    "answer": "Everyone needs help, at least I can send you this kitten:\nimage(\"https://media.giphy.com/media/ICOgUNjpvO0PC/source.gif\")",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "help"
+      },
+      {
+        "text": "what can you do"
+      },
+      {
+        "text": "your functions"
+      },
+      {
+        "text": "your possibilities"
+      },
+      {
+        "text": "tell me about you"
+      }
+    ],
+    "patterns": []
+  },
+  {
+    "id": 9281,
+    "path": "/Smalltalk/HowAreYou",
+    "answer": "I'm fine! Thank you!",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "how are you"
+      },
+      {
+        "text": "what's up"
+      }
+    ],
+    "patterns": [],
+    "slots": []
+  },
+  {
+    "id": 9293,
+    "path": "/Smalltalk/Nice",
+    "answer": "Nice to meet you too!",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "nice to meet you"
+      }
+    ],
+    "patterns": []
+  },
+  {
+    "id": 9282,
+    "path": "/Smalltalk/WhatIsYourName",
+    "answer": "I am Foody Fin, ready to help you ",
+    "enabled": true,
+    "shared": false,
+    "phrases": [
+      {
+        "text": "what is your name"
+      },
+      {
+        "text": "how to name you"
+      },
+      {
+        "text": "say me your name"
+      },
+      {
+        "text": "who are you"
+      }
+    ],
+    "patterns": []
+  }
+]
