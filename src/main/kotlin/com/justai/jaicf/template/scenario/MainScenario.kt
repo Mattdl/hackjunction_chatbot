@@ -82,7 +82,7 @@ object MainScenario : Scenario() {
                     val parser: Parser = Parser()
                     val stringBuilder: StringBuilder = StringBuilder(response)
                     val json: JsonObject = parser.parse(stringBuilder) as JsonObject
-                    reactions.say("json is ${json}")
+                    reactions.say("json is ${json["product"]}")
 
                     val klaxon = Klaxon()
                     val parsed = klaxon.parseJsonObject(StringReader(response))
