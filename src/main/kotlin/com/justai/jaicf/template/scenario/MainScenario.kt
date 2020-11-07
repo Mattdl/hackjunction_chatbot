@@ -14,7 +14,8 @@ import java.util.*
 //https://github.com/just-ai/jaicf-kotlin/wiki/context
 object MainScenario : Scenario() {
 
-    class Product(val product: Dictionary<String,String>)
+    class MainJson(val product: JsonObject)
+    class Product(val nutriments: Dictionary<String,Any>, val nutrient_levels: Dictionary<String,String>)
 
     init {
 //        data class Person(
@@ -77,32 +78,35 @@ object MainScenario : Scenario() {
 
                     val barcode = "737628064502" //tmp
                     val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
-                    reactions.say("Response is ${response}")
+//                    reactions.say("Response is ${response}")
 
                     val parser: Parser = Parser()
                     val stringBuilder: StringBuilder = StringBuilder(response)
                     val json: JsonObject = parser.parse(stringBuilder) as JsonObject
-                    reactions.say("json is ${json["product"]}")
 
-                    val klaxon = Klaxon()
-                    val parsed = klaxon.parseJsonObject(StringReader(response))
-                    reactions.say("parsed is ${parsed}")
-                    val dataArray = parsed.array<Any>("product")
-                    reactions.say("dataArray is ${dataArray}")
+                    println(json.obj("product")?.string("product_name"))
+                    val fat = println(json.obj("product")?.obj("nutriments")?.double("fat_100g"))
+                    val cals = println(json.obj("product")?.obj("nutriments")?.double("energy-kcal_100g"))
+                    val fat_sat = println(json.obj("product")?.obj("nutriments")?.double("saturated-fat_100g"))
+                    val fat_trans = println(json.obj("product")?.obj("nutriments")?.double("trans-fat_100g"))
+                    val sugar = println(json.obj("product")?.obj("nutriments")?.double("sugars_100g"))
+                    val proteins = println(json.obj("product")?.obj("nutriments")?.double("proteins_100g"))
 
-                    val productObj = dataArray?.let { klaxon.parseFromJsonArray<Product>(it) }
-                    reactions.say("productObj is ${productObj}")
+                    val fatlevel = println(json.obj("product")?.obj("nutrient_levels")?.string("nutrient_levels"))
 
-                    println(productObj)
-                    reactions.say("Your product is ${productObj}")
+                    // origins_old:
+                    val origin = println(json.obj("product")?.string("origins_old"))
 
-                    context.client["product"] = productObj
 
-//                val parser: Parser = Parser.default()()
-//                val json: JsonObject = parser.parse(response) as JsonObject
-//                println("Name : ${json.string("name")}, Age : ${json.int("age")}")
 
-//                    print(response)
+                    context.client["fat"] = fat
+                    context.client["cals"] = cals
+                    context.client["fat_sat"] = fat_sat
+                    context.client["fat_trans"] = fat_trans
+                    context.client["sugar"] = sugar
+                    context.client["proteins"] = proteins
+                    context.client["fatlevel"] = fatlevel
+                    context.client["origin"] = origin
                 }
             }
         }
@@ -129,6 +133,9 @@ object MainScenario : Scenario() {
             }
 
             action {
+//                val json = context.client["json"].
+//                val product = json. ["product"]
+
                 var response = URL("https://www.google.com").readText()
                 reactions.run {
                     say("Looking up how much fats there are!")
