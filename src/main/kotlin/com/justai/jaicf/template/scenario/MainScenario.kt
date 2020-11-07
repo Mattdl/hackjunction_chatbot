@@ -62,17 +62,18 @@ object MainScenario : Scenario() {
                         "Alternative products?"
                     )
 
-                    var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]
+//                    var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]
+//                    context.client["barcode"] = barcode
+
+
+
 //                    var barcode = script_context?.JustWidgetRawParams
 //                    ["JustWidgetRawParams"]
-
-                    context.client["barcode"] = barcode
-                    reactions.say("Your barcode is ${barcode}")
-                    reactions.say("Your barcode raw is ${barcode!!.jsonObject["barcode"]}")
+//                    reactions.say("Your barcode is ${context.client["barcode"]}")
+//                    reactions.say("Your barcode raw is ${barcode!!.jsonObject["barcode"]}")
 //                    Your barcode is {"livechatStatus":{"enabled":false},"JustWidgetRawParams":{"barcode":"4001724004073"},"isTestChannel":false}
 
-//                    var barcode = "737628064502"
-//                var barcode = context.client["barcode"]
+                    var barcode = "737628064502" //tmp
                     var response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
 
                     val klaxon = Klaxon()
@@ -80,6 +81,7 @@ object MainScenario : Scenario() {
                     val dataArray = parsed.array<Any>("product")
                     val productObj = dataArray?.let { klaxon.parseFromJsonArray<Product>(it) }
                     println(productObj)
+                    reactions.say("Your product is ${productObj}")
 
                     context.client["product"] = productObj
 
