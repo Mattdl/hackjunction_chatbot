@@ -75,11 +75,17 @@ object MainScenario : Scenario() {
 
                     var barcode = "737628064502" //tmp
                     var response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
+                    reactions.say("Response is ${response}")
 
                     val klaxon = Klaxon()
                     val parsed = klaxon.parseJsonObject(StringReader(response))
+                    reactions.say("parsed is ${parsed}")
                     val dataArray = parsed.array<Any>("product")
+                    reactions.say("dataArray is ${dataArray}")
+
                     val productObj = dataArray?.let { klaxon.parseFromJsonArray<Product>(it) }
+                    reactions.say("productObj is ${productObj}")
+
                     println(productObj)
                     reactions.say("Your product is ${productObj}")
 
