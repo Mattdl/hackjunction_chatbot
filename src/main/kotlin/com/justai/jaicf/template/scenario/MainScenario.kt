@@ -2,14 +2,33 @@ package com.justai.jaicf.template.scenario
 
 import com.justai.jaicf.activator.caila.caila
 import com.justai.jaicf.model.scenario.Scenario
-
 import java.net.URL
+
+import com.beust.klaxon.Klaxon
+import com.justai.jaicf.channel.jaicp.dto.chatwidget
+import java.io.StringReader
+import java.util.*
 
 //https://github.com/just-ai/jaicf-kotlin/wiki/context
 object MainScenario : Scenario() {
 
-    init {
+    class Product(val product: Dictionary<String,String>)
 
+    init {
+//        data class Person(
+//            @Json(name = "the_name")
+//            val name: String
+//        )
+//        val result = Klaxon()
+//            .parse<Person>("""
+//    {
+//      "the_name": "John Smith", // note the field name
+//      "age": 23
+//    }
+//""")
+
+//        assert(result.name == "John Smith")
+//        assert(result.age == 23)
 //        bind("preProcess", function(ctx){
 //            var $session = ctx.session;
 //            var $parseTree = ctx.parseTree;
@@ -42,8 +61,29 @@ object MainScenario : Scenario() {
                         "Produced where?",
                         "Alternative products?"
                     )
-                    context.client["barcode"] = context.result
-                    reactions.say("Your barcode is ${context.result}")
+
+                    var barcode = request.chatwidget?.jaicp?.data
+
+                    context.client["barcode"] = barcode
+                    reactions.say("Your barcode is ${barcode}")
+
+//                    var barcode = "737628064502"
+//                var barcode = context.client["barcode"]
+                    var response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
+
+                    val klaxon = Klaxon()
+                    val parsed = klaxon.parseJsonObject(StringReader(response))
+                    val dataArray = parsed.array<Any>("product")
+                    val productObj = dataArray?.let { klaxon.parseFromJsonArray<Product>(it) }
+                    println(productObj)
+
+                    context.client["product"] = productObj
+
+//                val parser: Parser = Parser.default()()
+//                val json: JsonObject = parser.parse(response) as JsonObject
+//                println("Name : ${json.string("name")}, Age : ${json.int("age")}")
+
+//                    print(response)
                 }
             }
         }
@@ -62,27 +102,6 @@ object MainScenario : Scenario() {
                 reactions.image("https://media.giphy.com/media/EE185t7OeMbTy/source.gif")
             }
         }
-
-//        state("search") {
-//            activators {
-//                intent("search")
-//            }
-//
-//            action {
-//                var response = URL("https://google.com").readText()
-//                reactions.run {
-//                    say(response)
-//                    image("https://media.giphy.com/media/ICOgUNjpvO0PC/source.gif")
-//                    sayRandom(
-//                        "Hope that helped!",
-//                        "Did this answer your question?"
-//                    )
-//                    buttons(
-//                        "Give me more suggestions!"
-//                    )
-//                }
-//            }
-//        }
 
         state("search_fat") {
             activators {
@@ -115,22 +134,13 @@ object MainScenario : Scenario() {
             }
 
             action {
-                var barcode = "737628064502"
-//                var barcode = context.client["barcode"]
-                var response = URL("https://world.openfoodfacts.org/api/v0/product/$barcode.json").readText()
 
-
-//                val parser: Parser = Parser.default()()
-//                val json: JsonObject = parser.parse(response) as JsonObject
-//                println("Name : ${json.string("name")}, Age : ${json.int("age")}")
-
-                print(response)
-
+                var response = context.client["data"]
 
 
                 reactions.run {
                     say("Looking up how much calories there are!")
-                    say(response)
+//                    say(response)
                     sayRandom(
                         "Hope that helped!",
                         "Did this answer your question?"
