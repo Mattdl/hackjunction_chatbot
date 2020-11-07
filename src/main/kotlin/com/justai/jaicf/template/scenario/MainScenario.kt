@@ -1,10 +1,12 @@
 package com.justai.jaicf.template.scenario
 
+import com.beust.klaxon.JsonObject
 import com.justai.jaicf.activator.caila.caila
 import com.justai.jaicf.model.scenario.Scenario
 import java.net.URL
 
 import com.beust.klaxon.Klaxon
+import com.beust.klaxon.Parser
 import com.justai.jaicf.channel.jaicp.dto.chatwidget
 import java.io.StringReader
 import java.util.*
@@ -73,9 +75,14 @@ object MainScenario : Scenario() {
 //                    reactions.say("Your barcode raw is ${barcode!!.jsonObject["barcode"]}")
 //                    Your barcode is {"livechatStatus":{"enabled":false},"JustWidgetRawParams":{"barcode":"4001724004073"},"isTestChannel":false}
 
-                    var barcode = "737628064502" //tmp
-                    var response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
+                    val barcode = "737628064502" //tmp
+                    val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                     reactions.say("Response is ${response}")
+
+                    val parser: Parser = Parser()
+                    val stringBuilder: StringBuilder = StringBuilder(response)
+                    val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+                    reactions.say("json is ${json}")
 
                     val klaxon = Klaxon()
                     val parsed = klaxon.parseJsonObject(StringReader(response))
