@@ -35,39 +35,6 @@ object MainScenario : Scenario() {
                         "Produced where?",
                         "Alternative products?"
                     )
-
-
-
-
-//                    var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]
-//                    context.client["barcode"] = barcode
-
-
-
-//                    var barcode = script_context?.JustWidgetRawParams
-//                    ["JustWidgetRawParams"]
-//                    reactions.say("Your barcode is ${context.client["barcode"]}")
-//                    reactions.say("Your barcode raw is ${barcode!!.jsonObject["barcode"]}")
-//                    Your barcode is {"livechatStatus":{"enabled":false},"JustWidgetRawParams":{"barcode":"4001724004073"},"isTestChannel":false}
-
-
-
-//                    println(json.obj("product")?.string("product_name"))
-//                    val sugar = println(json.obj("product")?.obj("nutriments")?.double("sugars_100g"))
-//                    val proteins = println(json.obj("product")?.obj("nutriments")?.double("proteins_100g"))
-//                    // origins_old:
-//                    val origin = println(json.obj("product")?.string("origins_old"))
-
-
-
-//                    context.client["fat"] = fat
-//                    context.client["cals"] = cals
-//                    context.client["fat_sat"] = fat_sat
-//                    context.client["fat_trans"] = fat_trans
-//                    context.client["sugar"] = sugar
-//                    context.client["proteins"] = proteins
-//                    context.client["fatlevel"] = fatlevel
-//                    context.client["origin"] = origin
                 }
             }
         }
@@ -212,7 +179,6 @@ object MainScenario : Scenario() {
 
         state("origin") {
             activators {
-//                regex("calories")
                 intent("origin")
             }
 
@@ -248,7 +214,8 @@ object MainScenario : Scenario() {
             action {
 //                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
                 val barcode = "737628064502" //tmp
-                val response = URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
+                val response =
+                    URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
@@ -275,15 +242,18 @@ object MainScenario : Scenario() {
             action {
 //                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
                 val barcode = "737628064502" //tmp
-                val response = URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
+                val response =
+                    URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-//                val proteins = json.obj("product")?.obj("nutriments")?.double("proteins_100g")
+                val ret = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("product_name")
+                val url = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("image_small_url")
 
                 reactions.run {
-                    say("I would recommend the following alternative product [TODO].")
+                    say("I would recommend the following alternative product: ${ret}.")
+                    image("${url}")
 
                     buttons(
                         "What are the fat values?",
