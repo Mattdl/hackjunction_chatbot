@@ -35,7 +35,6 @@ object MainScenario : Scenario() {
                         "Produced where?",
                         "Alternative products?"
                     )
-//                    go("/alternatives")
                 }
             }
         }
@@ -75,15 +74,11 @@ object MainScenario : Scenario() {
                 val fat = json.obj("product")?.obj("nutriments")?.double("fat_100g")
                 val cals = json.obj("product")?.obj("nutriments")?.int("energy-kcal_100g")
                 val fat_sat = json.obj("product")?.obj("nutriments")?.double("saturated-fat_100g")
-                val fat_trans = json.obj("product")?.obj("nutriments")?.int("trans-fat_100g")
+//                val fat_trans = json.obj("product")?.obj("nutriments")?.int("trans-fat_100g")
                 val fatlevel = json.obj("product")?.obj("nutrient_levels")?.string("fat")
 
                 reactions.run {
                     say("Per 100g , you have ${cals.toString()} kcal and ${fat.toString()}g fats from which ${fat_sat.toString()}g saturated. This is considered a ${fatlevel} fat-level.")
-//                    sayRandom(
-//                        "Hope that helped!",
-//                        "Did this answer your question?"
-//                    )
                     buttons(
                         "What are the proteins?",
                         "What's the origin of the product?"
@@ -95,24 +90,20 @@ object MainScenario : Scenario() {
 
         state("search_calories") {
             activators {
-//                regex("calories")
                 intent("/search/calories")
                 intent("calories")
             }
 
             action {
                 var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
-
                 val cals = json.obj("product")?.obj("nutriments")?.int("energy-kcal_100g")
 
                 reactions.run {
                     say("Per 100g , you have ${cals.toString()} kcal of energy.")
-
                     buttons(
                         "What are the fat values?",
                         "Where does my food come from?"
@@ -123,7 +114,6 @@ object MainScenario : Scenario() {
 
         state("search_sugar") {
             activators {
-//                regex("calories")
                 intent("/search/sugars")
                 intent("sugars")
             }
@@ -185,7 +175,6 @@ object MainScenario : Scenario() {
 
             action {
                 var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
@@ -214,9 +203,7 @@ object MainScenario : Scenario() {
 
             action {
                 var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-//                val barcode = "737628064502" //tmp
-                val response =
-                    URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
+                val response = URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
@@ -225,18 +212,16 @@ object MainScenario : Scenario() {
 
                 val present = text?.contains("nut")
 
-                reactions.run {
-                    if (present == true){
-                        say("The ingredient list mentions the use of nuts.")
+                if (present == true){
+                    reactions.say("The ingredient list mentions the use of nuts.")
 
-                    }else{
-                        say("The ingredient list has no mention of  allergens.")
-                    }
-
-                    buttons(
-                        "Suggest nut-free related products?"
-                    )
+                }else{
+                    reactions.say("The ingredient list has no mention of  allergens.")
                 }
+
+                reactions.buttons(
+                    "Suggest nut-free related products?"
+                )
             }
         }
 
@@ -247,23 +232,20 @@ object MainScenario : Scenario() {
             }
 
             action {
-                reactions.run {
                 var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-//                    val barcode = "737628064502" //tmp
-                    var url_in = "https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1"
+                var url_in = "https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1"
 
-                    val response = URL("${url_in}").readText()
-                    val parser: Parser = Parser()
-                    val stringBuilder: StringBuilder = StringBuilder(response)
-                    val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+                val response = URL("${url_in}").readText()
+                val parser: Parser = Parser()
+                val stringBuilder: StringBuilder = StringBuilder(response)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-                    val ret = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("product_name")
-                    val url = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("image_small_url")
-
+                val ret = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("product_name")
+                val url = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("image_small_url")
+                reactions.run {
 
                     say("I would recommend the following alternative product: ${ret}.")
                     image("${url}")
-
                     buttons(
                         "Where can I find this?",
                         "What are the calories?"
@@ -280,8 +262,6 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-
                 reactions.run {
                     image("https://thomasverelst.github.io/map.gif")
                     say("You can follow the directions on the map.")
