@@ -257,11 +257,17 @@ object MainScenario : Scenario() {
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
                 val ret = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("product_name")
+                println(ret)
                 val url = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("image_small_url")
+                println(url)
 
                 reactions.run {
+                    say("Pre DEBUG ")
                     say("I would recommend the following alternative product: ${ret}.")
+                    say("mid DEBUG ")
                     image("${url}")
+                    say("post DEBUG ")
+
 
                     buttons(
                         "Where can I find this?",
