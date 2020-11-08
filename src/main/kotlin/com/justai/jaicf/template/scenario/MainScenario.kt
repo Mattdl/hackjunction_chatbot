@@ -65,8 +65,8 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
@@ -101,8 +101,8 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
@@ -129,8 +129,8 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
@@ -158,8 +158,8 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
@@ -184,8 +184,8 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                val barcode = "737628064502" //tmp
                 val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
                 val parser: Parser = Parser()
                 val stringBuilder: StringBuilder = StringBuilder(response)
@@ -214,8 +214,8 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                val barcode = "737628064502" //tmp
                 val response =
                     URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
                 val parser: Parser = Parser()
@@ -249,8 +249,8 @@ object MainScenario : Scenario() {
 
             action {
                 reactions.run {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                    val barcode = "737628064502" //tmp
+                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+//                    val barcode = "737628064502" //tmp
                     var url_in = "https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1"
 
                     val response = URL("${url_in}").readText()
