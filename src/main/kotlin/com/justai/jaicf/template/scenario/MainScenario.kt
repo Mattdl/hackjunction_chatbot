@@ -35,7 +35,7 @@ object MainScenario : Scenario() {
                         "Produced where?",
                         "Alternative products?"
                     )
-                    go("/alternatives")
+//                    go("/alternatives")
                 }
             }
         }
@@ -244,7 +244,6 @@ object MainScenario : Scenario() {
 
         state("alternatives") {
             activators {
-//                regex("calories")
                 intent("alternatives")
             }
 
