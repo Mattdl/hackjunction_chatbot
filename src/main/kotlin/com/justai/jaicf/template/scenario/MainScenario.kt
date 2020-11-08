@@ -196,6 +196,7 @@ object MainScenario : Scenario() {
                     say("This product was made in ${origin.toString()}.")
 
                     buttons(
+                        "Does it contain nuts?",
                         "What are the fat values?",
                         "What are the calories?"
                     )
@@ -220,10 +221,17 @@ object MainScenario : Scenario() {
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-                val proteins = json.obj("product")?.string("ingredients_text_with_allergens_en")
+                val text = json.obj("product")?.string("ingredients_text_with_allergens_en")
+
+                val present = text?.contains("nut")
 
                 reactions.run {
-                    say("Per 100g, you have ${proteins.toString()}g of protein.")
+                    if (present == true){
+                        say("The ingredient list mentions the use of nuts.")
+
+                    }else{
+                        say("The ingredient list has no mention of  allergens.")
+                    }
 
                     buttons(
                         "Can I suggest nut-free related products?"
