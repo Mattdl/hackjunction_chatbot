@@ -234,7 +234,7 @@ object MainScenario : Scenario() {
                     }
 
                     buttons(
-                        "Can I suggest nut-free related products?"
+                        "Suggest nut-free related products?"
                     )
                 }
             }
@@ -264,7 +264,7 @@ object MainScenario : Scenario() {
                     image("${url}")
 
                     buttons(
-                        "What are the fat values?",
+                        "Where can I find this?",
                         "What are the calories?"
                     )
                 }
@@ -272,6 +272,26 @@ object MainScenario : Scenario() {
         }
 
 
+        state("locate") {
+            activators {
+//                regex("calories")
+                intent("locate")
+            }
+
+            action {
+//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+
+                reactions.run {
+                    image("https://thomasverelst.github.io/map.gif")
+                    say("You can follow the directions on the map.")
+
+
+                    buttons(
+                        "Thanks!"
+                    )
+                }
+            }
+        }
 
 
 
