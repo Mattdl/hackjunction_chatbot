@@ -252,26 +252,18 @@ object MainScenario : Scenario() {
 //                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
                     val barcode = "737628064502" //tmp
                     var url_in = "https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1"
-                    say("url_in=${url_in}")
 
                     val response = URL("${url_in}").readText()
                     val parser: Parser = Parser()
                     val stringBuilder: StringBuilder = StringBuilder(response)
                     val json: JsonObject = parser.parse(stringBuilder) as JsonObject
-                    say("response=${response}")
 
                     val ret = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("product_name")
-                    say("ret=${ret}")
                     val url = json.obj("recommended")?.array<JsonObject>("products")?.get(0)?.get("image_small_url")
-                    say("url=${url}")
 
 
-                    say("Pre DEBUG ")
                     say("I would recommend the following alternative product: ${ret}.")
-                    say("mid DEBUG ")
                     image("${url}")
-                    say("post DEBUG ")
-
 
                     buttons(
                         "Where can I find this?",
