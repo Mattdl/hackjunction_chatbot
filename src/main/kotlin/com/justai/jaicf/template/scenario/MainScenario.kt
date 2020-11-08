@@ -36,6 +36,9 @@ object MainScenario : Scenario() {
                         "Alternative products?"
                     )
 
+
+
+
 //                    var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]
 //                    context.client["barcode"] = barcode
 
@@ -83,6 +86,7 @@ object MainScenario : Scenario() {
                 reactions.image("https://media.giphy.com/media/EE185t7OeMbTy/source.gif")
             }
         }
+
 
 
 
@@ -165,7 +169,7 @@ object MainScenario : Scenario() {
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-                val sugar = println(json.obj("product")?.obj("nutriments")?.double("sugars_100g"))
+                val sugar = json.obj("product")?.obj("nutriments")?.double("sugars_100g")
 
                 reactions.run {
                     say("Per 100g , you have ${sugar.toString()}g of sugar.")
@@ -194,7 +198,7 @@ object MainScenario : Scenario() {
                 val stringBuilder: StringBuilder = StringBuilder(response)
                 val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-                val proteins = println(json.obj("product")?.obj("nutriments")?.double("proteins_100g"))
+                val proteins = json.obj("product")?.obj("nutriments")?.double("proteins_100g")
 
                 reactions.run {
                     say("Per 100g, you have ${proteins.toString()}g of protein.")
@@ -206,6 +210,119 @@ object MainScenario : Scenario() {
                 }
             }
         }
+
+        state("origin") {
+            activators {
+//                regex("calories")
+                intent("origin")
+            }
+
+            action {
+//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+                val barcode = "737628064502" //tmp
+                val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
+                val parser: Parser = Parser()
+                val stringBuilder: StringBuilder = StringBuilder(response)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+
+                val origin = json.obj("product")?.string("origins_old")
+
+                reactions.run {
+                    say("This product was made in ${origin.toString()}.")
+
+                    buttons(
+                        "What are the fat values?",
+                        "What are the calories?"
+                    )
+                }
+            }
+        }
+
+        state("alternatives") {
+            activators {
+//                regex("calories")
+                intent("alternatives")
+            }
+
+            action {
+//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+                val barcode = "737628064502" //tmp
+                val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
+                val parser: Parser = Parser()
+                val stringBuilder: StringBuilder = StringBuilder(response)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+
+                val proteins = json.obj("product")?.obj("nutriments")?.double("proteins_100g")
+
+                reactions.run {
+                    say("Per 100g, you have ${proteins.toString()}g of protein.")
+
+                    buttons(
+                        "What are the fat values?",
+                        "What are the calories?"
+                    )
+                }
+            }
+        }
+
+
+        // Are there nuts in there
+        state("nuts") {
+            activators {
+//                regex("calories")
+                intent("nuts")
+            }
+
+            action {
+//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+                val barcode = "737628064502" //tmp
+                val response = URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
+                val parser: Parser = Parser()
+                val stringBuilder: StringBuilder = StringBuilder(response)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+
+                val proteins = json.obj("product")?.string("ingredients_text_with_allergens_en")
+
+                reactions.run {
+                    say("Per 100g, you have ${proteins.toString()}g of protein.")
+
+                    buttons(
+                        "Can I suggest nut-free related products?"
+                    )
+                }
+            }
+        }
+
+
+        state("alternatives") {
+            activators {
+//                regex("calories")
+                intent("alternatives")
+            }
+
+            action {
+//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+                val barcode = "737628064502" //tmp
+                val response = URL("https://nutreat-backend.azurewebsites.net/api/products/${barcode}?planet=1&price=1&people=1").readText()
+                val parser: Parser = Parser()
+                val stringBuilder: StringBuilder = StringBuilder(response)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+
+//                val proteins = json.obj("product")?.obj("nutriments")?.double("proteins_100g")
+
+                reactions.run {
+                    say("I would recommend the following alternative product [TODO].")
+
+                    buttons(
+                        "What are the fat values?",
+                        "What are the calories?"
+                    )
+                }
+            }
+        }
+
+
+
 
 
 
