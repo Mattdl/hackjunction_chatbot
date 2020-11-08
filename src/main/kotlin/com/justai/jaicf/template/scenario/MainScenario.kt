@@ -14,36 +14,7 @@ import java.util.*
 //https://github.com/just-ai/jaicf-kotlin/wiki/context
 object MainScenario : Scenario() {
 
-    class MainJson(val product: JsonObject)
-    class Product(val nutriments: Dictionary<String,Any>, val nutrient_levels: Dictionary<String,String>)
-
     init {
-//        data class Person(
-//            @Json(name = "the_name")
-//            val name: String
-//        )
-//        val result = Klaxon()
-//            .parse<Person>("""
-//    {
-//      "the_name": "John Smith", // note the field name
-//      "age": 23
-//    }
-//""")
-
-//        assert(result.name == "John Smith")
-//        assert(result.age == 23)
-//        bind("preProcess", function(ctx){
-//            var $session = ctx.session;
-//            var $parseTree = ctx.parseTree;
-//            $session.start = $parseTree.text.substring($parseTree.text.lastIndexOf("start") + "start ".length);
-//            if($session.start) {
-//            try {
-//                $session.start = JSON.parse($session.start);
-//            }  catch(e) {
-//                log("start data non JSON object");
-//            }
-//        }
-//        });
 
         state("start") {
             activators {
@@ -76,37 +47,24 @@ object MainScenario : Scenario() {
 //                    reactions.say("Your barcode raw is ${barcode!!.jsonObject["barcode"]}")
 //                    Your barcode is {"livechatStatus":{"enabled":false},"JustWidgetRawParams":{"barcode":"4001724004073"},"isTestChannel":false}
 
-                    val barcode = "737628064502" //tmp
-                    val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
-//                    reactions.say("Response is ${response}")
 
-                    val parser: Parser = Parser()
-                    val stringBuilder: StringBuilder = StringBuilder(response)
-                    val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-                    println(json.obj("product")?.string("product_name"))
-                    val fat = println(json.obj("product")?.obj("nutriments")?.double("fat_100g"))
-                    val cals = println(json.obj("product")?.obj("nutriments")?.double("energy-kcal_100g"))
-                    val fat_sat = println(json.obj("product")?.obj("nutriments")?.double("saturated-fat_100g"))
-                    val fat_trans = println(json.obj("product")?.obj("nutriments")?.double("trans-fat_100g"))
-                    val sugar = println(json.obj("product")?.obj("nutriments")?.double("sugars_100g"))
-                    val proteins = println(json.obj("product")?.obj("nutriments")?.double("proteins_100g"))
-
-                    val fatlevel = println(json.obj("product")?.obj("nutrient_levels")?.string("nutrient_levels"))
-
-                    // origins_old:
-                    val origin = println(json.obj("product")?.string("origins_old"))
+//                    println(json.obj("product")?.string("product_name"))
+//                    val sugar = println(json.obj("product")?.obj("nutriments")?.double("sugars_100g"))
+//                    val proteins = println(json.obj("product")?.obj("nutriments")?.double("proteins_100g"))
+//                    // origins_old:
+//                    val origin = println(json.obj("product")?.string("origins_old"))
 
 
 
-                    context.client["fat"] = fat
-                    context.client["cals"] = cals
-                    context.client["fat_sat"] = fat_sat
-                    context.client["fat_trans"] = fat_trans
-                    context.client["sugar"] = sugar
-                    context.client["proteins"] = proteins
-                    context.client["fatlevel"] = fatlevel
-                    context.client["origin"] = origin
+//                    context.client["fat"] = fat
+//                    context.client["cals"] = cals
+//                    context.client["fat_sat"] = fat_sat
+//                    context.client["fat_trans"] = fat_trans
+//                    context.client["sugar"] = sugar
+//                    context.client["proteins"] = proteins
+//                    context.client["fatlevel"] = fatlevel
+//                    context.client["origin"] = origin
                 }
             }
         }
@@ -133,20 +91,30 @@ object MainScenario : Scenario() {
             }
 
             action {
-//                val json = context.client["json"].
-//                val product = json. ["product"]
+//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
+                val barcode = "737628064502" //tmp
+                val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
+                val parser: Parser = Parser()
+                val stringBuilder: StringBuilder = StringBuilder(response)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-                var response = URL("https://www.google.com").readText()
+                val fat = json.obj("product")?.obj("nutriments")?.double("fat_100g")
+                val cals = json.obj("product")?.obj("nutriments")?.int("energy-kcal_100g")
+                val fat_sat = json.obj("product")?.obj("nutriments")?.double("saturated-fat_100g")
+                val fat_trans = json.obj("product")?.obj("nutriments")?.int("trans-fat_100g")
+                val fatlevel = json.obj("product")?.obj("nutrient_levels")?.string("nutrient_levels")
+
+//                var response = URL("https://www.google.com").readText()
                 reactions.run {
-                    say("Looking up how much fats there are!")
-                    say(response)
-                    sayRandom(
-                        "Hope that helped!",
-                        "Did this answer your question?"
-                    )
+                    say("Per 100g , you have ${cals.toString()} kcal and ${fat.toString()}g fats from which ${fat_sat.toString()}g saturated." +
+                            "This is considered a ${fatlevel} fat-level.")
+//                    sayRandom(
+//                        "Hope that helped!",
+//                        "Did this answer your question?"
+//                    )
                     buttons(
-                        "What are the calories?",
-                        "Where does my food come frome?"
+                        "What are the proteins?",
+                        "What's the origin of the product?"
                     )
                 }
             }
@@ -179,48 +147,7 @@ object MainScenario : Scenario() {
             }
         }
 
-        // https://edcd8d22065c.ngrok.io/api/products/<bar_code> --> Miel endpoint
 
-        // countries : list of countries where the product is sold
-
-
-        // generic_name_en e.g. rice noodles --> "these rice noodles contain...'
-
-//       ingredients_text_with_allergens (ingredients_ids_debug --> each separate in list)
-
-       //allergens
-
-        //  "additives_original_tags": [
-        //      "en:e330"
-        //    ],
-
-        // labels = gluten free
-
-
-
-        // serving size (serving_size_imported)
-
-        // nutrient levels --> SUmmary
-//        "nutrient_levels": {
-//            "fat": "moderate",
-//            "salt": "moderate",
-//            "sugars": "high",
-//            "saturated-fat": "moderate"
-//        },
-
-
-//        state("search", noContext = true) {
-//            activators {
-//                intent("search")
-//            }
-//
-//            action {
-//                activator.caila?.topIntent?.answer?.let {
-//                    reactions.say("Search is called.")
-//                    reactions.say(it)
-//                }
-//            }
-//        }
 
 
 
