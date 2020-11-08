@@ -31,7 +31,7 @@ object MainScenario : Scenario() {
                         "Foody Finn reporting for duty! Questions about this product?"
                     )
                     buttons(
-                        "How much cals are in there?",
+                        "How much fats are in there?",
                         "Produced where?",
                         "Alternative products?"
                     )
@@ -108,11 +108,10 @@ object MainScenario : Scenario() {
                 val cals = json.obj("product")?.obj("nutriments")?.int("energy-kcal_100g")
                 val fat_sat = json.obj("product")?.obj("nutriments")?.double("saturated-fat_100g")
                 val fat_trans = json.obj("product")?.obj("nutriments")?.int("trans-fat_100g")
-                val fatlevel = json.obj("product")?.obj("nutrient_levels")?.string("nutrient_levels")
+                val fatlevel = json.obj("product")?.obj("nutrient_levels")?.string("fat")
 
                 reactions.run {
-                    say("Per 100g , you have ${cals.toString()} kcal and ${fat.toString()}g fats from which ${fat_sat.toString()}g saturated." +
-                            "This is considered a ${fatlevel} fat-level.")
+                    say("Per 100g , you have ${cals.toString()} kcal and ${fat.toString()}g fats from which ${fat_sat.toString()}g saturated. This is considered a ${fatlevel} fat-level.")
 //                    sayRandom(
 //                        "Hope that helped!",
 //                        "Did this answer your question?"
@@ -229,33 +228,6 @@ object MainScenario : Scenario() {
 
                 reactions.run {
                     say("This product was made in ${origin.toString()}.")
-
-                    buttons(
-                        "What are the fat values?",
-                        "What are the calories?"
-                    )
-                }
-            }
-        }
-
-        state("alternatives") {
-            activators {
-//                regex("calories")
-                intent("alternatives")
-            }
-
-            action {
-//                var barcode = request.chatwidget?.jaicp?.data!!.jsonObject["JustWidgetRawParams"]!!.jsonObject["barcode"]
-                val barcode = "737628064502" //tmp
-                val response = URL("https://world.openfoodfacts.org/api/v0/product/${barcode}.json").readText()
-                val parser: Parser = Parser()
-                val stringBuilder: StringBuilder = StringBuilder(response)
-                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
-
-                val proteins = json.obj("product")?.obj("nutriments")?.double("proteins_100g")
-
-                reactions.run {
-                    say("Per 100g, you have ${proteins.toString()}g of protein.")
 
                     buttons(
                         "What are the fat values?",
