@@ -278,6 +278,7 @@ object MainScenario : Scenario() {
 
 
 
+
         state("smalltalk", noContext = true) {
             activators {
                 anyIntent()
