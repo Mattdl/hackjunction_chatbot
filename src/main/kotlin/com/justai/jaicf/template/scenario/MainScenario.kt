@@ -209,7 +209,6 @@ object MainScenario : Scenario() {
         // Are there nuts in there
         state("nuts") {
             activators {
-//                regex("calories")
                 intent("nuts")
             }
 
